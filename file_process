@@ -1,8 +1,12 @@
 #!/usr/bin/perl
 
-open (IN,"test.txt") ||(die "can not open the file input.txt\n$!");
+open (IN,"dir") ||(die "can not open the file input.txt\n$!");
 my @all = <IN>;
 foreach $line(@all)
 {
-  print "$line\n";
+    if (line !~ /^$/) {
+        $line =~ s/\s{4}//;
+        print $line;
+    }
+
 }
