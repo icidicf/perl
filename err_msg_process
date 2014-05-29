@@ -1,0 +1,27 @@
+#!/usr/bin/perl
+
+unless (open (OUT, ">./err_msg_item.log")) {
+	print "open err_msg_item.log failure";
+}
+print "intput $ARGV[0], $ARGV[1], $ARGV[2] \n";
+unless (open (IN, @ARGV[0])) {
+	print "open $ARGV[0] failure";
+}
+my $count = 0;
+my $newdir = "./.log";
+mkdir $newdir;
+while(defined($line = <IN>)) {
+	$count ++;
+	if (($count >= $ARGV[1] )  && ($count <= $ARGV[2])) {
+		if ($line =~ /.*\b([A-Z]+)\b,.*/) {
+			print OUT $1."\n";
+	                $filename=$1.".c";
+			print "process $1 \n";
+			system "grep -r -E -C20  errmsg.*[^_]$1  * > $newdir/$filename 2>NULL";
+	#		system "grep -r -E -C20  errmsg.*[^_]$1  * ";
+		}
+	}
+}
+	
+
+close(OUT);
